@@ -47,7 +47,7 @@ export const type = Phaser.WEBGL;
 /**
  *  Whether to disable antialiasing or not. Great for pixel art.
  */
-export const pixelArt = true;
+export const pixelArt = false;
 
 /**
  *  Whether to enable canvas transparency or not.

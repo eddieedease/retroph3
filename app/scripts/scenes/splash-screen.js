@@ -60,6 +60,11 @@ export default class SplashScreen extends Phaser.Scene {
       frameHeight: 59
     });
 
+    this.load.spritesheet('npc', 'sprites/npc.png', {
+      frameWidth: 26,
+      frameHeight: 36
+    });
+
 
 
     // mball

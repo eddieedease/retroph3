@@ -36,9 +36,10 @@ export default class Game extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     // the walker
-    this.player = this.physics.add.sprite(100, 100, 'player').setScale(0.3);
+    this.player = this.physics.add.sprite(50, 100, 'player').setScale(0.3);
 
-
+    //try an npc
+    this.npc1 = this.physics.add.sprite(100, 100, 'npc').setScale(0.7);
 
 
 
@@ -53,11 +54,17 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.roundPixels = true;
     this.cameras.main.startFollow(this.player, true, 0.9, 0.9);
 
-    // collision tileset and player
-    this.physics.add.collider(this.player, this.layercol);
 
-    // player
-    // walker config form png sequense
+
+
+    // collision tileset and player & rest
+    this.physics.add.collider(this.player, this.layercol);
+    this.physics.add.collider(this.npc1, this.layercol);
+
+    // NOTE: Animations set up
+
+    // player animations setup
+    //
     var playerup = {
       key: 'playerup',
       frames: this.anims.generateFrameNumbers('player', {
@@ -98,10 +105,68 @@ export default class Game extends Phaser.Scene {
       repeat: -1
     };
 
+    // enemy animations setup
+    //
+    var npcup = {
+      key: 'npcup',
+      frames: this.anims.generateFrameNumbers('npc', {
+        start: 84,
+        end: 86
+      }),
+      frameRate: 5,
+      repeat: -1
+    };
+
+    var npcdown = {
+      key: 'npcdown',
+      frames: this.anims.generateFrameNumbers('npc', {
+        start: 48,
+        end: 50
+      }),
+      frameRate: 5,
+      repeat: -1
+    };
+
+    var npcside = {
+      key: 'npcside',
+      frames: this.anims.generateFrameNumbers('npc', {
+        start: 72,
+        end: 74
+      }),
+      frameRate: 5,
+      repeat: -1
+    };
+
+    var npcidle = {
+      key: 'npcidle',
+      frames: this.anims.generateFrameNumbers('npc', {
+        start: 49,
+        end: 49
+      }),
+      frameRate: 5,
+      repeat: -1
+    };
+
+
+    // PLAYER ANIMATIONS
     this.anims.create(playerup);
     this.anims.create(playerdown);
     this.anims.create(playerside);
     this.anims.create(playeridle);
+
+    // NPC Animations
+    this.anims.create(npcup);
+    this.anims.create(npcdown);
+    this.anims.create(npcside);
+    this.anims.create(npcidle);
+
+    //
+    // this.physics.accelerateToObject(this.npc1, this.player, 60, 300, 300);
+
+    this.playerxy = {
+      x: this.player.x,
+      y: this.player.y
+    };
 
     // THe RADMENU
     this.radmenu = this.add.image(500, 200, 'mball').setScale(0.5);
@@ -153,6 +218,8 @@ export default class Game extends Phaser.Scene {
     // this.logo.update();
     // this.controls.update(delta);
     this.player.setVelocity(0);
+    // this.npc1.setVelocity(0);
+    this.physics.moveToObject(this.npc1, this.player, 60);
 
     var _newstate;
 
@@ -161,11 +228,13 @@ export default class Game extends Phaser.Scene {
       _newstate = 'sideways';
       this.player.setVelocityX(-100);
       this.player.setFlipX(true);
+      this.npc1.setFlipX(true);
       // this.cameras.main.followOffset.x = 300;
     } else if (this.cursors.right.isDown) {
       _newstate = 'sideways';
       this.player.setVelocityX(100);
       this.player.setFlipX(false);
+      this.npc1.setFlipX(false);
       // this.cameras.main.followOffset.x = -300;
     } else if (this.cursors.up.isDown) {
       _newstate = 'up';
@@ -188,41 +257,45 @@ export default class Game extends Phaser.Scene {
     // the mball update loop
     // Phaser.Actions.SetXY(this.mballgroup.getChildren(), this.player.x, this.player.y);
     // Phaser.Actions.RotateAroundDistance(this.mballgroup.getChildren(), { x: this.player.x, y: this.player.y }, 0.02, 50);
-}
-
-
-update_checkPlayerAnimation(_newstate) {
-  // lets check if the animation needs to be changed
-  if (this.player_animstate !== _newstate) {
-    this.player_animstate = _newstate;
-    switch (_newstate) {
-      case 'sideways':
-        this.player.play('playerside');
-        break;
-      case 'idle':
-        this.player.play('playeridle');
-        break;
-      case 'up':
-        this.player.play('playerup');
-        break;
-      case 'down':
-        this.player.play('playerdown');
-        break;
-    }
-  } else {
-    // Do nothing and keep animation going
   }
-}
+
+
+  update_checkPlayerAnimation(_newstate) {
+    // lets check if the animation needs to be changed
+    if (this.player_animstate !== _newstate) {
+      this.player_animstate = _newstate;
+      switch (_newstate) {
+        case 'sideways':
+          this.player.play('playerside');
+          this.npc1.play('npcside');
+          break;
+        case 'idle':
+          this.player.play('playeridle');
+          // this.npc1.play('npcidle');
+          break;
+        case 'up':
+          this.player.play('playerup');
+          this.npc1.play('npcup');
+          break;
+        case 'down':
+          this.player.play('playerdown');
+          this.npc1.play('npcdown');
+          break;
+      }
+    } else {
+      // Do nothing and keep animation going
+    }
+  }
 
 
 
 
-debug() {
-  this.debugGraphics.clear();
-  this.map.renderDebug(this.debugGraphics, {
-    tileColor: null, // Non-colliding tiles
-    collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
-    faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
-  });
-}
+  debug() {
+    this.debugGraphics.clear();
+    this.map.renderDebug(this.debugGraphics, {
+      tileColor: null, // Non-colliding tiles
+      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
+    });
+  }
 }
