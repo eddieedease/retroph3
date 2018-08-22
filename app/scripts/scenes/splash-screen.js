@@ -39,7 +39,7 @@ export default class SplashScreen extends Phaser.Scene {
 
     //this.load.image('picA', 'assets/pics/lance-overdose-loader-eye.png');
     // tilemap json
-    this.load.image('tiles', 'maps/tileset.png');
+    this.load.image('tiles', 'maps/tilesetextruded.png');
     // this.load.image('tilesoutside', 'maps/roguelike_outside.png');
 
     // ppixelfont
