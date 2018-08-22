@@ -59,6 +59,11 @@ export default class SplashScreen extends Phaser.Scene {
       frameWidth: 45,
       frameHeight: 59
     });
+
+
+
+    // mball
+    this.load.image('mball', 'img/mball.png');
   }
 
   /**
@@ -96,7 +101,7 @@ export default class SplashScreen extends Phaser.Scene {
     } = this.textures.get('progress-bar').get();
 
     //  Place the filler over the progress bar of the splash screen.
-    const img = this.add.sprite(82, 282, 'progress-bar').setOrigin(0);
+    const img = this.add.sprite(100, 350, 'progress-bar').setOrigin(0);
 
     //  Crop the filler along its width, proportional to the amount of files
     //  loaded.

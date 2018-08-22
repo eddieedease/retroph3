@@ -45,24 +45,19 @@ export default class Game extends Phaser.Scene {
     this.layer1 = this.map.createStaticLayer(1, this.tiles, 0, 0).setScale(1);
     this.layercol = this.map.createStaticLayer(2, this.tiles, 0, 0).setScale(1);
     this.layercol.visible = false;
-     this.map.setCollisionBetween(715, 716);
+    this.map.setCollisionBetween(715, 716);
     this.cameras.main.setSize(900, 700);
     this.cameras.main.setBounds(0, 0);
 
     this.cameras.main.setZoom(3.4);
     this.cameras.main.roundPixels = true;
-    this.cameras.main.startFollow(this.player, true, 0.4, 0.4);
+    this.cameras.main.startFollow(this.player, true, 0.9, 0.9);
 
     // collision tileset and player
     this.physics.add.collider(this.player, this.layercol);
 
     // player
     // walker config form png sequense
-
-    //this.mysprite.animations.add('down', [0, 1, 2, 3], 10, true);
-    //this.mysprite.animations.add('right', [4, 5, 6, 7], 10, true);
-    //this.mysprite.animations.add('left', [8, 9, 10, 11], 10, true);
-    //this.mysprite.animations.add('up', [12, 13, 14, 15], 10, true);
     var playerup = {
       key: 'playerup',
       frames: this.anims.generateFrameNumbers('player', {
@@ -107,6 +102,42 @@ export default class Game extends Phaser.Scene {
     this.anims.create(playerdown);
     this.anims.create(playerside);
     this.anims.create(playeridle);
+
+    // THe RADMENU
+    this.radmenu = this.add.image(500, 200, 'mball').setScale(0.5);
+
+
+    // example of group in circle
+    // this.mballcircle = new Phaser.Geom.Circle(this.player.x, this.player.y, 50);
+
+    // this.mballgroup = this.add.group({
+    //   key: 'mball',
+    //   frameQuantity: 5,
+    //   setScale: {
+    //     x: 0.3,
+    //     y: 0.3,
+    //   }
+    // });
+
+    // example place on circle
+    // Phaser.Actions.PlaceOnCircle(this.mballgroup.getChildren(), this.mballcircle);
+
+    // example of tween
+    // this.mballtween = this.tweens.addCounter({
+    //   from: 100,
+    //   to: 10,
+    //   duration: 3000,
+    //   delay: 2000,
+    //   ease: 'Sine.easeInOut',
+    //   repeat: -1,
+    //   yoyo: true
+    // });
+
+    //
+
+
+
+
   }
 
   /**
@@ -148,37 +179,50 @@ export default class Game extends Phaser.Scene {
       _newstate = 'idle';
     }
     this.update_checkPlayerAnimation(_newstate);
-  }
 
-  update_checkPlayerAnimation(_newstate) {
-    // lets check if the animation needs to be changed
-    if (this.player_animstate !== _newstate) {
-      this.player_animstate = _newstate;
-      switch (_newstate) {
-        case 'sideways':
-          this.player.play('playerside');
-          break;
-        case 'idle':
-          this.player.play('playeridle');
-          break;
-        case 'up':
-          this.player.play('playerup');
-          break;
-        case 'down':
-          this.player.play('playerdown');
-          break;
-      }
-    } else {
-      // Do nothing and keep animation going
+    //RADmenu testing
+    this.radmenu.x = this.player.x;
+    this.radmenu.y = this.player.y;
+    this.radmenu.rotation += 0.05;
+
+    // the mball update loop
+    // Phaser.Actions.SetXY(this.mballgroup.getChildren(), this.player.x, this.player.y);
+    // Phaser.Actions.RotateAroundDistance(this.mballgroup.getChildren(), { x: this.player.x, y: this.player.y }, 0.02, 50);
+}
+
+
+update_checkPlayerAnimation(_newstate) {
+  // lets check if the animation needs to be changed
+  if (this.player_animstate !== _newstate) {
+    this.player_animstate = _newstate;
+    switch (_newstate) {
+      case 'sideways':
+        this.player.play('playerside');
+        break;
+      case 'idle':
+        this.player.play('playeridle');
+        break;
+      case 'up':
+        this.player.play('playerup');
+        break;
+      case 'down':
+        this.player.play('playerdown');
+        break;
     }
+  } else {
+    // Do nothing and keep animation going
   }
+}
 
-  debug() {
-    this.debugGraphics.clear();
-    this.map.renderDebug(this.debugGraphics, {
-      tileColor: null, // Non-colliding tiles
-      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
-    });
-  }
+
+
+
+debug() {
+  this.debugGraphics.clear();
+  this.map.renderDebug(this.debugGraphics, {
+    tileColor: null, // Non-colliding tiles
+    collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
+    faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
+  });
+}
 }
