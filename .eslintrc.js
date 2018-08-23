@@ -35,7 +35,7 @@ exports.globals = {
   Phaser: false
 };
 
-exports.extends = 'eslint:recommended';
+// exports.extends = 'eslint:recommended';
 
 exports.rules = {
   // Indent code with 2 spaces

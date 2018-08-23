@@ -1,4 +1,4 @@
-// import Logo from '@/objects/logo';
+ import Enemy from '@/objects/enemy';
 
 export default class Game extends Phaser.Scene {
   /**
@@ -60,6 +60,8 @@ export default class Game extends Phaser.Scene {
     // collision tileset and player & rest
     this.physics.add.collider(this.player, this.layercol);
     this.physics.add.collider(this.npc1, this.layercol);
+
+
 
     // NOTE: Animations set up
 
@@ -201,7 +203,7 @@ export default class Game extends Phaser.Scene {
     //
 
 
-
+    this.enemy = this.add.existing(new Enemy(this));
 
   }
 
@@ -215,7 +217,9 @@ export default class Game extends Phaser.Scene {
    */
   update( /* t, dt */ ) {
     // NOTE: template of using object
-    // this.logo.update();
+    this.enemy.update();
+    
+    
     // this.controls.update(delta);
     this.player.setVelocity(0);
     // this.npc1.setVelocity(0);
@@ -224,17 +228,17 @@ export default class Game extends Phaser.Scene {
     var _newstate;
 
 
+
     if (this.cursors.left.isDown) {
       _newstate = 'sideways';
       this.player.setVelocityX(-100);
       this.player.setFlipX(true);
-      this.npc1.setFlipX(true);
       // this.cameras.main.followOffset.x = 300;
     } else if (this.cursors.right.isDown) {
       _newstate = 'sideways';
       this.player.setVelocityX(100);
       this.player.setFlipX(false);
-      this.npc1.setFlipX(false);
+
       // this.cameras.main.followOffset.x = -300;
     } else if (this.cursors.up.isDown) {
       _newstate = 'up';
@@ -247,7 +251,10 @@ export default class Game extends Phaser.Scene {
     } else {
       _newstate = 'idle';
     }
+
+
     this.update_checkPlayerAnimation(_newstate);
+    this.update_npcAnimiation();
 
     //RADmenu testing
     this.radmenu.x = this.player.x;
@@ -267,7 +274,7 @@ export default class Game extends Phaser.Scene {
       switch (_newstate) {
         case 'sideways':
           this.player.play('playerside');
-          this.npc1.play('npcside');
+          //this.npc1.play('npcside');
           break;
         case 'idle':
           this.player.play('playeridle');
@@ -275,15 +282,58 @@ export default class Game extends Phaser.Scene {
           break;
         case 'up':
           this.player.play('playerup');
-          this.npc1.play('npcup');
+          // this.npc1.play('npcup');
           break;
         case 'down':
           this.player.play('playerdown');
-          this.npc1.play('npcdown');
+          // this.npc1.play('npcdown');
           break;
       }
     } else {
       // Do nothing and keep animation going
+    }
+  }
+
+  // NPC sprite adjust
+  update_npcAnimiation() {
+    
+    if (this.npc1.body.velocity.x > 55) {
+      this.npc1newstate = 'right';
+    } else if (this.npc1.body.velocity.x < -55) {
+      this.npc1newstate = 'left';
+    }
+    if (this.npc1.body.velocity.y > 55) {
+      this.npc1newstate = 'down';
+    } else if (this.npc1.body.velocity.y < -55) {
+      this.npc1newstate = 'up';
+    } else {
+      
+    }
+
+
+    // check if statechange needs action
+    if (this.npc1state !== this.npc1newstate) {
+      this.npc1state = this.npc1newstate;
+      switch (this.npc1state) {
+        case 'left':
+          this.npc1.play('npcside');
+          this.npc1.setFlipX(true);
+          break;
+        case 'right':
+          this.npc1.play('npcside');
+          this.npc1.setFlipX(false);
+          break;
+        case 'idle':
+          this.npc1.play('npcidle');
+          break;
+        case 'up':
+          this.npc1.play('npcup');
+          break;
+        case 'down':
+          this.npc1.play('npcdown');
+          break;
+
+      }
     }
   }
 
