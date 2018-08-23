@@ -5,17 +5,26 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
    *
    *  @extends Phaser.GameObjects.Sprite
    */
-  constructor(scene) {
-    super(scene, 0, 0, 'npc').setScale(0.7); 
-    
-    
+  constructor(scene,x ,y ) {
+    super(scene, 0, 0, 'npc').setScale(0.6);
+
+
+    // randommer followspeed
+    this.speedz = Math.floor((Math.random() * 50) + 49);
+
+
+    this.scene = scene;
     console.log(scene.physics);
     
-    // this.npc1 = this.physics.add.sprite(100, 100, 'npc').setScale(0.7);
-   this.x = 100;
-   this.y = 100;
+    console.log(this);
 
-     // enemy animations setup
+    // this.npc1 = this.physics.add.sprite(100, 100, 'npc').setScale(0.7);
+    this.x = x;
+    this.y = y;
+    scene.physics.add.existing(this, false);
+    // scene.physics.add.collider(this, scene.layercol);
+
+    // enemy animations setup
     var npcup = {
       key: 'npcup',
       frames: scene.anims.generateFrameNumbers('npc', {
@@ -55,6 +64,12 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
       frameRate: 5,
       repeat: -1
     };
+
+    // ENEMY ANIMATIONS
+    scene.anims.create(npcup);
+    scene.anims.create(npcdown);
+    scene.anims.create(npcside);
+    scene.anims.create(npcidle);
   }
 
 
@@ -63,49 +78,47 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
    *  Increment the angle smoothly.
    */
   update() {
-    
+
     //this.angle += 0.1;
-    this.x += 1;
-    
+    // this.x += 1;
+    this.scene.physics.moveToObject(this, this.scene.player, this.speedz);
 
-    // let npc1newstate = null;
-    
-    // if (this.body.velocity.x > 55) {
-    //   npc1newstate = 'right';
-    // } else if (this.body.velocity.x < -55) {
-    //   npc1newstate = 'left';
-    // }
-    // if (this.body.velocity.y > 55) {
-    //   npc1newstate = 'down';
-    // } else if (this.body.velocity.y < -55) {
-    //   npc1newstate = 'up';
-    // } else {
-      
-    // }
+    let npc1newstate = null;
 
+    if (this.body.velocity.x > 44) {
+      npc1newstate = 'right';
+    } else if (this.body.velocity.x < -44) {
+      npc1newstate = 'left';
+    }
+    if (this.body.velocity.y > 44) {
+      npc1newstate = 'down';
+    } else if (this.body.velocity.y < -44) {
+      npc1newstate = 'up';
+    } else {
 
-    // // check if statechange needs action
-    // if (this.npc1state !== npc1newstate) {
-    //   this.npc1state = npc1newstate;
-    //   switch (this.npc1state) {
-    //     case 'left':
-    //       this.play('npcside');
-    //       this.setFlipX(true);
-    //       break;
-    //     case 'right':
-    //       this.play('npcside');
-    //       this.setFlipX(false);
-    //       break;
-    //     case 'idle':
-    //       this.play('npcidle');
-    //       break;
-    //     case 'up':
-    //       this.play('npcup');
-    //       break;
-    //     case 'down':
-    //       this.play('npcdown');
-    //       break;
-    //   }
-    // }
+    }
+
+    if (this.npc1state !== npc1newstate) {
+      this.npc1state = npc1newstate;
+      switch (this.npc1state) {
+        case 'left':
+          this.play('npcside');
+          this.setFlipX(true);
+          break;
+        case 'right':
+          this.play('npcside');
+          this.setFlipX(false);
+          break;
+        case 'idle':
+          this.play('npcidle');
+          break;
+        case 'up':
+          this.play('npcup');
+          break;
+        case 'down':
+          this.play('npcdown');
+          break;
+      }
+    }
   }
 }

@@ -37,9 +37,15 @@ export default class Game extends Phaser.Scene {
 
     // the walker
     this.player = this.physics.add.sprite(50, 100, 'player').setScale(0.3);
-
+    this.enemy = this.add.existing(new Enemy(this, 100, 200));
+    
+    this.enemy2 = this.add.existing(new Enemy(this,300, 150));
+    
+    
+    
+   
+   
     //try an npc
-    this.npc1 = this.physics.add.sprite(100, 100, 'npc').setScale(0.7);
 
 
 
@@ -52,21 +58,15 @@ export default class Game extends Phaser.Scene {
 
     this.cameras.main.setZoom(3.4);
     this.cameras.main.roundPixels = true;
-    this.cameras.main.startFollow(this.player, true, 0.9, 0.9);
-
-
-
+    this.cameras.main.startFollow(this.player, true, 0.8, 0.8);
 
     // collision tileset and player & rest
     this.physics.add.collider(this.player, this.layercol);
-    this.physics.add.collider(this.npc1, this.layercol);
 
-
-
+    this.physics.add.collider(this.enemy, this.layercol);
+    this.physics.add.collider(this.enemy2, this.layercol);
     // NOTE: Animations set up
-
     // player animations setup
-    //
     var playerup = {
       key: 'playerup',
       frames: this.anims.generateFrameNumbers('player', {
@@ -107,48 +107,6 @@ export default class Game extends Phaser.Scene {
       repeat: -1
     };
 
-    // enemy animations setup
-    //
-    var npcup = {
-      key: 'npcup',
-      frames: this.anims.generateFrameNumbers('npc', {
-        start: 84,
-        end: 86
-      }),
-      frameRate: 5,
-      repeat: -1
-    };
-
-    var npcdown = {
-      key: 'npcdown',
-      frames: this.anims.generateFrameNumbers('npc', {
-        start: 48,
-        end: 50
-      }),
-      frameRate: 5,
-      repeat: -1
-    };
-
-    var npcside = {
-      key: 'npcside',
-      frames: this.anims.generateFrameNumbers('npc', {
-        start: 72,
-        end: 74
-      }),
-      frameRate: 5,
-      repeat: -1
-    };
-
-    var npcidle = {
-      key: 'npcidle',
-      frames: this.anims.generateFrameNumbers('npc', {
-        start: 49,
-        end: 49
-      }),
-      frameRate: 5,
-      repeat: -1
-    };
-
 
     // PLAYER ANIMATIONS
     this.anims.create(playerup);
@@ -156,13 +114,6 @@ export default class Game extends Phaser.Scene {
     this.anims.create(playerside);
     this.anims.create(playeridle);
 
-    // NPC Animations
-    this.anims.create(npcup);
-    this.anims.create(npcdown);
-    this.anims.create(npcside);
-    this.anims.create(npcidle);
-
-    //
     // this.physics.accelerateToObject(this.npc1, this.player, 60, 300, 300);
 
     this.playerxy = {
@@ -201,10 +152,7 @@ export default class Game extends Phaser.Scene {
     // });
 
     //
-
-
-    this.enemy = this.add.existing(new Enemy(this));
-
+   
   }
 
   /**
@@ -218,13 +166,13 @@ export default class Game extends Phaser.Scene {
   update( /* t, dt */ ) {
     // NOTE: template of using object
     this.enemy.update();
+    this.enemy2.update();
     
     
     // this.controls.update(delta);
     this.player.setVelocity(0);
     // this.npc1.setVelocity(0);
-    this.physics.moveToObject(this.npc1, this.player, 60);
-
+    
     var _newstate;
 
 
@@ -254,7 +202,6 @@ export default class Game extends Phaser.Scene {
 
 
     this.update_checkPlayerAnimation(_newstate);
-    this.update_npcAnimiation();
 
     //RADmenu testing
     this.radmenu.x = this.player.x;
@@ -294,48 +241,8 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  // NPC sprite adjust
-  update_npcAnimiation() {
-    
-    if (this.npc1.body.velocity.x > 55) {
-      this.npc1newstate = 'right';
-    } else if (this.npc1.body.velocity.x < -55) {
-      this.npc1newstate = 'left';
-    }
-    if (this.npc1.body.velocity.y > 55) {
-      this.npc1newstate = 'down';
-    } else if (this.npc1.body.velocity.y < -55) {
-      this.npc1newstate = 'up';
-    } else {
-      
-    }
-
-
-    // check if statechange needs action
-    if (this.npc1state !== this.npc1newstate) {
-      this.npc1state = this.npc1newstate;
-      switch (this.npc1state) {
-        case 'left':
-          this.npc1.play('npcside');
-          this.npc1.setFlipX(true);
-          break;
-        case 'right':
-          this.npc1.play('npcside');
-          this.npc1.setFlipX(false);
-          break;
-        case 'idle':
-          this.npc1.play('npcidle');
-          break;
-        case 'up':
-          this.npc1.play('npcup');
-          break;
-        case 'down':
-          this.npc1.play('npcdown');
-          break;
-
-      }
-    }
-  }
+  
+  
 
 
 
