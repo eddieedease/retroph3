@@ -10,9 +10,9 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
 
 
     // randommer followspeed
-    this.speedz = Math.floor((Math.random() * 50) + 49);
+    this.speedz = Math.floor((Math.random() * 30) + 25);
 
-
+    this.setSize(4, 4, true);
     this.scene = scene;
     console.log(scene.physics);
     
@@ -22,6 +22,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
     this.x = x;
     this.y = y;
     scene.physics.add.existing(this, false);
+    
     // scene.physics.add.collider(this, scene.layercol);
 
     // enemy animations setup
@@ -85,14 +86,14 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
 
     let npc1newstate = null;
 
-    if (this.body.velocity.x > 44) {
+    if (this.body.velocity.x > 25) {
       npc1newstate = 'right';
-    } else if (this.body.velocity.x < -44) {
+    } else if (this.body.velocity.x < -25) {
       npc1newstate = 'left';
     }
-    if (this.body.velocity.y > 44) {
+    if (this.body.velocity.y > 25) {
       npc1newstate = 'down';
-    } else if (this.body.velocity.y < -44) {
+    } else if (this.body.velocity.y < -25) {
       npc1newstate = 'up';
     } else {
 

@@ -40,7 +40,9 @@ export default class Game extends Phaser.Scene {
     this.enemy = this.add.existing(new Enemy(this, 100, 200));
     
     this.enemy2 = this.add.existing(new Enemy(this,300, 150));
+    this.enemy3 = this.add.existing(new Enemy(this, 700, 500));
     
+    this.enemy4 = this.add.existing(new Enemy(this,400, 400));
     
     
    
@@ -65,6 +67,8 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider(this.enemy, this.layercol);
     this.physics.add.collider(this.enemy2, this.layercol);
+    this.physics.add.collider(this.enemy3, this.layercol);
+    this.physics.add.collider(this.enemy4, this.layercol);
     // NOTE: Animations set up
     // player animations setup
     var playerup = {
@@ -152,7 +156,11 @@ export default class Game extends Phaser.Scene {
     // });
 
     //
-   
+    this.input.on('pointerdown', function () {
+
+    // what do we do on mouseclick
+
+  }, this);
   }
 
   /**
@@ -167,7 +175,8 @@ export default class Game extends Phaser.Scene {
     // NOTE: template of using object
     this.enemy.update();
     this.enemy2.update();
-    
+    this.enemy3.update();
+    this.enemy4.update();
     
     // this.controls.update(delta);
     this.player.setVelocity(0);
