@@ -168,12 +168,15 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         break;
     }
   }
+
+
   /**
    *  UPDATE OBJECT LOOP
    */
   update() {
     // Move to player
     // check mainscene pause variable
+    console.log(this.scene.scenePause);
     if (this.scene.scenePause !== true){
       this.scene.physics.moveToObject(this, this.scene.player, this.speedz);
       // npc state var loop, set null
@@ -213,6 +216,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         }
       }
     } else {
+      
       // Game is pauzes
       //this.body.velocity.x = 0;
       //this.body.velocity.y = 0;

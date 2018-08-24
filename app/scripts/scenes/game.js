@@ -23,6 +23,8 @@
      //  NOTE: Below is template use of objects
      // this.logo = this.add.existing(new Logo(this));
 
+     let thisRef = this;
+
      // loading the json tilemap
      this.map = this.make.tilemap({
        key: 'tileset'
@@ -160,20 +162,58 @@
      //   yoyo: true
      // });
 
-     //  // what do we do on mouseclick
+     //  Pausing the action, show menu ring
      this.input.on('pointerdown', function () {
        if (this.scenePause === false) {
          this.scenePause = true;
          // this.scene.pause();
          this.radmenu.visible = true;
          this.physics.pause();
+         this.anims.pauseAll();
+         this.radmenu.x = this.player.x;
+         this.radmenu.y = this.player.y;
        } else {
          this.scenePause = false;
          console.log('resume');
          this.radmenu.visible = false;
          this.physics.resume();
+         this.anims.resumeAll();
        }
      }, this);
+
+
+     this.allowMenuLeft = true;
+     this.allowMenuRight = true;
+
+     //pauze menu rings
+     // left 
+     this.input.keyboard.on('keydown_A', function (event) {
+       // check if the action is paused
+       if (thisRef.scenePause === true && thisRef.allowMenuLeft === true) {
+         thisRef.allowMenuLeft = false;
+        console.log('A is pressed');
+        thisRef.tweens.add({
+           targets: thisRef.radmenu,
+           ease: 'Power1',
+           duration: 250,
+           onComplete: function () { thisRef.allowMenuLeft = true; },
+           angle: thisRef.radmenu.angle - 90
+         });
+       }
+     });
+     // right
+     this.input.keyboard.on('keydown_D', function (event) {
+       if (thisRef.scenePause === true && thisRef.allowMenuRight === true) {
+        thisRef.allowMenuRight = false;
+        thisRef.tweens.add({
+           targets: thisRef.radmenu,
+           ease: 'Power1',
+           duration: 250,
+           onComplete: function () { thisRef.allowMenuRight = true; },
+           angle: thisRef.radmenu.angle + 90
+         });
+       }
+     });
    }
 
    /**
@@ -188,12 +228,15 @@
 
      // Pause VAR -- check if the main game needs to be updated
 
+     // group of enemies update
+     this.enemyArray.forEach(_enemy => {
+       //_enemy.update();
+       _enemy.update();
+     });
+
+     // what needs pauzing on main scene
      if (this.scenePause !== true) {
-       // group of enemies update
-       this.enemyArray.forEach(_enemy => {
-         //_enemy.update();
-         _enemy.update();
-       });
+
 
        // this.controls.update(delta);
        this.player.setVelocity(0);
@@ -227,9 +270,8 @@
      } else {
        // NOTE: GAMELoop is Pauzed
        //RADmenu testing
-       this.radmenu.x = this.player.x;
-       this.radmenu.y = this.player.y;
-       this.radmenu.rotation += 0.05;
+
+       // this.radmenu.rotation += 0.05;
      }
 
 
