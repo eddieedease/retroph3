@@ -4,6 +4,7 @@ Thumbs.db
 
 dist/
 build/
+docs/
 node_modules/
 
 !.git*

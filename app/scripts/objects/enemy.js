@@ -2,124 +2,222 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
   /**
    *  A simple prefab (extended game object class), displaying a spinning
    *  Phaser 3 logo.
-   *
    *  @extends Phaser.GameObjects.Sprite
    */
-  constructor(scene,x ,y ) {
+  constructor(scene, x, y) {
     super(scene, 0, 0, 'npc').setScale(0.6);
-
-
-    // randommer followspeed
-    this.speedz = Math.floor((Math.random() * 30) + 25);
-
-    this.setSize(4, 4, true);
+    //appoint partent scene ref
     this.scene = scene;
-    console.log(scene.physics);
-    
-    console.log(this);
-
-    // this.npc1 = this.physics.add.sprite(100, 100, 'npc').setScale(0.7);
     this.x = x;
     this.y = y;
+    // randommer enemytipe + followspeed
+    this.enemytype = Math.floor((Math.random() * 3) + 1);
+    this.speedz = Math.floor((Math.random() * 30) + 27);
+    // This setsize is for for the body, 'true' is for from the center
+    this.setSize(7, 7, true);
+    // activate physics on object
     scene.physics.add.existing(this, false);
-    
-    // scene.physics.add.collider(this, scene.layercol);
-
-    // enemy animations setup
-    var npcup = {
-      key: 'npcup',
-      frames: scene.anims.generateFrameNumbers('npc', {
-        start: 84,
-        end: 86
-      }),
-      frameRate: 5,
-      repeat: -1
-    };
-
-    var npcdown = {
-      key: 'npcdown',
-      frames: scene.anims.generateFrameNumbers('npc', {
-        start: 48,
-        end: 50
-      }),
-      frameRate: 5,
-      repeat: -1
-    };
-
-    var npcside = {
-      key: 'npcside',
-      frames: scene.anims.generateFrameNumbers('npc', {
-        start: 72,
-        end: 74
-      }),
-      frameRate: 5,
-      repeat: -1
-    };
-
-    var npcidle = {
-      key: 'npcidle',
-      frames: scene.anims.generateFrameNumbers('npc', {
-        start: 49,
-        end: 49
-      }),
-      frameRate: 5,
-      repeat: -1
-    };
-
-    // ENEMY ANIMATIONS
-    scene.anims.create(npcup);
-    scene.anims.create(npcdown);
-    scene.anims.create(npcside);
-    scene.anims.create(npcidle);
+    // set up on enemy type, animations and add them if they do not exist
+    switch (this.enemytype) {
+      case 1:
+        // enemy animations setup
+        var npcup1 = {
+          key: 'npcup1',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 84,
+            end: 86
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcdown1 = {
+          key: 'npcdown1',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 48,
+            end: 50
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcside1 = {
+          key: 'npcside1',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 72,
+            end: 74
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcidle1 = {
+          key: 'npcidle1',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 49,
+            end: 49
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        // adding animations
+        // ENEMY ANIMATIONS
+        scene.anims.create(npcup1);
+        scene.anims.create(npcdown1);
+        scene.anims.create(npcside1);
+        scene.anims.create(npcidle1);
+        this.upframes = 'npcup1';
+        this.downframes = 'npcdown1';
+        this.sideframes = 'npcside1';
+        this.idleframes = 'npcidle1';
+        break;
+      case 2:
+        // enemy 2 animation setup
+        // enemy animations setup
+        var npcup2 = {
+          key: 'npcup2',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 39,
+            end: 41
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcdown2 = {
+          key: 'npcdown2',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 3,
+            end: 5
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcside2 = {
+          key: 'npcside2',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 27,
+            end: 29
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcidle2 = {
+          key: 'npcidle2',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 4,
+            end: 4
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        // ENEMY2 ANIMATIONS
+        scene.anims.create(npcup2);
+        scene.anims.create(npcdown2);
+        scene.anims.create(npcside2);
+        scene.anims.create(npcidle2);
+        this.upframes = 'npcup2';
+        this.downframes = 'npcdown2';
+        this.sideframes = 'npcside2';
+        this.idleframes = 'npcidle2';
+        break;
+      case 3:
+        // enemy 3 animation setup
+        // enemy animations setup
+        var npcup3 = {
+          key: 'npcup3',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 87,
+            end: 89
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcdown3 = {
+          key: 'npcdown3',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 54,
+            end: 56
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcside3 = {
+          key: 'npcside3',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 78,
+            end: 80
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcidle3 = {
+          key: 'npcidle3',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 55,
+            end: 55
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        // ENEMY3 ANIMATIONS
+        scene.anims.create(npcup3);
+        scene.anims.create(npcdown3);
+        scene.anims.create(npcside3);
+        scene.anims.create(npcidle3);
+        this.upframes = 'npcup3';
+        this.downframes = 'npcdown3';
+        this.sideframes = 'npcside3';
+        this.idleframes = 'npcidle3';
+        break;
+    }
   }
-
-
-
   /**
-   *  Increment the angle smoothly.
+   *  UPDATE OBJECT LOOP
    */
   update() {
-
-    //this.angle += 0.1;
-    // this.x += 1;
-    this.scene.physics.moveToObject(this, this.scene.player, this.speedz);
-
-    let npc1newstate = null;
-
-    if (this.body.velocity.x > 25) {
-      npc1newstate = 'right';
-    } else if (this.body.velocity.x < -25) {
-      npc1newstate = 'left';
-    }
-    if (this.body.velocity.y > 25) {
-      npc1newstate = 'down';
-    } else if (this.body.velocity.y < -25) {
-      npc1newstate = 'up';
-    } else {
-
-    }
-
-    if (this.npc1state !== npc1newstate) {
-      this.npc1state = npc1newstate;
-      switch (this.npc1state) {
-        case 'left':
-          this.play('npcside');
-          this.setFlipX(true);
-          break;
-        case 'right':
-          this.play('npcside');
-          this.setFlipX(false);
-          break;
-        case 'idle':
-          this.play('npcidle');
-          break;
-        case 'up':
-          this.play('npcup');
-          break;
-        case 'down':
-          this.play('npcdown');
-          break;
+    // Move to player
+    // check mainscene pause variable
+    if (this.scene.scenePause !== true){
+      this.scene.physics.moveToObject(this, this.scene.player, this.speedz);
+      // npc state var loop, set null
+      let npcnewstate = null;
+      if (this.body.velocity.x > 15) {
+        npcnewstate = 'right';
+      } else if (this.body.velocity.x < -15) {
+        npcnewstate = 'left';
+      } else if (this.body.velocity.y > 15) {
+        npcnewstate = 'down';
+      } else if (this.body.velocity.y < -15) {
+        npcnewstate = 'up';
+      } else {
+        npcnewstate = 'idle';
       }
+      // check if the state has changed, if so, change animations
+      if (this.npcstate !== npcnewstate) {
+        this.npcstate = npcnewstate;
+        switch (this.npcstate) {
+          case 'left':
+            this.setFlipX(true);
+            this.play(this.sideframes);
+            break;
+          case 'right':
+            this.setFlipX(false);
+            this.play(this.sideframes);
+            break;
+          case 'idle':
+            this.play(this.idleframes);
+            break;
+          case 'up':
+            this.play(this.upframes);
+            break;
+          case 'down':
+            this.play(this.downframes);
+            break;
+        }
+      }
+    } else {
+      // Game is pauzes
+      //this.body.velocity.x = 0;
+      //this.body.velocity.y = 0;
     }
+
+    
   }
 }
