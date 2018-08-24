@@ -1,4 +1,5 @@
  import Enemy from '@/objects/enemy';
+ import Texter from '@/objects/texter';
 
  export default class Game extends Phaser.Scene {
    /**
@@ -134,7 +135,9 @@
 
      // THe RADMENU
      this.radmenu = this.add.image(500, 200, 'mball').setScale(0.5);
+     this.radmenu.visible = false;
 
+     this.texter = this.add.existing(new Texter(this, 100, 200));
 
      // example of group in circle
      // this.mballcircle = new Phaser.Geom.Circle(this.player.x, this.player.y, 50);

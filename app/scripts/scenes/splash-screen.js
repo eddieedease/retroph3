@@ -69,6 +69,8 @@ export default class SplashScreen extends Phaser.Scene {
 
     // mball
     this.load.image('mball', 'img/mball.png');
+     // texter
+     this.load.image('texter', 'img/textcloud.png');
   }
 
   /**
