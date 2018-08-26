@@ -112,8 +112,8 @@
      var playeridle = {
        key: 'playeridle',
        frames: this.anims.generateFrameNumbers('player', {
-         start: 0,
-         end: 0
+         start: 1,
+         end: 1
        }),
        frameRate: 5,
        repeat: -1
