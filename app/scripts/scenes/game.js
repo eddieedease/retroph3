@@ -35,11 +35,14 @@
 
      this.layerbg = this.map.createStaticLayer(0, this.tiles, 0, 0).setScale(1);
 
-     // cursor keys
-     this.cursors = this.input.keyboard.createCursorKeys();
+     // cursor keys (disabled cause WASD movement)
+     // this.cursors = this.input.keyboard.createCursorKeys();
 
      // the walker
      this.player = this.physics.add.sprite(50, 100, 'player').setScale(0.3);
+
+     // set up a boolean for our player alive status
+     this.playerAlive = true;
 
 
      // we want this to be a group eventually
@@ -52,6 +55,18 @@
 
      // Adding them to the Array
      this.enemyArray = [this.enemy, this.enemy2, this.enemy3, this.enemy4, this.enemy5, this.enemy6];
+
+     this.enemyArray.forEach(_enemy => {
+      let collider = this.physics.add.overlap(_enemy, this.player, function (clownOnBlock)
+      {
+          // clownOnBlock.body.stop();
+          // this.physics.world.removeCollider(collider);
+          // this.cameras.main.flash(500);
+          // TODO: HERE is the player colliding with enemies
+          this.playerAlive = false;
+          this.gameoverscreen.visible = true;
+      }, null, this);
+     });
 
      this.scenePause = false;
 
@@ -136,6 +151,9 @@
      // THe RADMENU
      this.radmenu = this.add.image(500, 200, 'mball').setScale(0.5);
      this.radmenu.visible = false;
+     // gameover screen
+     this.gameoverscreen = this.add.image(450, 350 , 'gameover').setScale(0.7).setScrollFactor(0);;
+     this.gameoverscreen.visible = false;
 
      this.texter = this.add.existing(new Texter(this, 100, 200));
 
@@ -166,7 +184,7 @@
      // });
 
      //  Pausing the action, show menu ring
-     this.input.on('pointerdown', function () {
+     this.input.keyboard.on('keydown_SPACE', function (event) {
        if (this.scenePause === false) {
          this.scenePause = true;
          // this.scene.pause();
@@ -177,7 +195,7 @@
          this.radmenu.y = this.player.y;
        } else {
          this.scenePause = false;
-         console.log('resume');
+        // console.log('resume');
          this.radmenu.visible = false;
          this.physics.resume();
          this.anims.resumeAll();
@@ -217,7 +235,16 @@
          });
        }
      });
+
+     // Register KEYS for movement (Instead of cursorkeys)
+
+     this.upKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+     this.downKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+     this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+     this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
    }
+
+
 
    /**
     *  Called when a scene is updated. Updates to game logic, physics and game
@@ -238,29 +265,29 @@
      });
 
      // what needs pauzing on main scene
-     if (this.scenePause !== true) {
+     if (this.scenePause !== true && this.playerAlive === true) {
 
 
        // this.controls.update(delta);
        this.player.setVelocity(0);
        // this.npc1.setVelocity(0);
        var _newstate;
-       if (this.cursors.left.isDown) {
+       if (this.leftKey.isDown) {
          _newstate = 'sideways';
          this.player.setVelocityX(-100);
          this.player.setFlipX(true);
          // this.cameras.main.followOffset.x = 300;
-       } else if (this.cursors.right.isDown) {
+       } else if (this.rightKey.isDown) {
          _newstate = 'sideways';
          this.player.setVelocityX(100);
          this.player.setFlipX(false);
 
          // this.cameras.main.followOffset.x = -300;
-       } else if (this.cursors.up.isDown) {
+       } else if (this.upKey.isDown) {
          _newstate = 'up';
          this.player.setVelocityY(-100);
          // this.cameras.main.followOffset.x = -300;
-       } else if (this.cursors.down.isDown) {
+       } else if (this.downKey.isDown) {
          _newstate = 'down';
          this.player.setVelocityY(100);
          // this.cameras.main.followOffset.x = -300;
@@ -271,7 +298,7 @@
 
        this.update_checkPlayerAnimation(_newstate);
      } else {
-       // NOTE: GAMELoop is Pauzed
+       // NOTE: GAMELoop is Pauzed or player is dead
        //RADmenu testing
 
        // this.radmenu.rotation += 0.05;

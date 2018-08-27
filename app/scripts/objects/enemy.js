@@ -176,7 +176,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
   update() {
     // Move to player
     // check mainscene pause variable
-    console.log(this.scene.scenePause);
+    // console.log(this.scene.scenePause);
     if (this.scene.scenePause !== true){
       this.scene.physics.moveToObject(this, this.scene.player, this.speedz);
       // npc state var loop, set null
