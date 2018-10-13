@@ -52,9 +52,13 @@
      this.enemy4 = this.add.existing(new Enemy(this, 400, 400));
      this.enemy5 = this.add.existing(new Enemy(this, 300, 300));
      this.enemy6 = this.add.existing(new Enemy(this, 100, 400));
+     this.enemy7 = this.add.existing(new Enemy(this, 300, 100));
+     this.enemy8 = this.add.existing(new Enemy(this, 400, 400));
+     this.enemy9 = this.add.existing(new Enemy(this, 200, 400));
+     this.enemy10 = this.add.existing(new Enemy(this, 100, 150));
 
      // Adding them to the Array
-     this.enemyArray = [this.enemy, this.enemy2, this.enemy3, this.enemy4, this.enemy5, this.enemy6];
+     this.enemyArray = [this.enemy, this.enemy2, this.enemy3, this.enemy4, this.enemy5, this.enemy6,this.enemy7,this.enemy8,this.enemy9,this.enemy10];
 
      this.enemyArray.forEach(_enemy => {
       let collider = this.physics.add.overlap(_enemy, this.player, function (clownOnBlock)
@@ -63,8 +67,9 @@
           // this.physics.world.removeCollider(collider);
           // this.cameras.main.flash(500);
           // TODO: HERE is the player colliding with enemies
-          this.playerAlive = false;
-          this.gameoverscreen.visible = true;
+          // dthis.playerAlive = false;
+          // this.gameoverscreen.visible = true;
+          
       }, null, this);
      });
 
@@ -90,7 +95,7 @@
 
      // enemey colliders
      this.enemyArray.forEach(_enemy => {
-       this.physics.add.collider(_enemy, this.layercol);
+       this.physics.add.collider(_enemy, this.layercol, this.enemyHitWall);
      });
      // NOTE: Animations set up
      // player animations setup
@@ -261,13 +266,20 @@
      // group of enemies update
      this.enemyArray.forEach(_enemy => {
        //_enemy.update();
+
+       let random = Math.floor((Math.random() * 200) + 1);
+        if (random === 100){
+          _enemy.changeVelocity();
+        }
+       if (this.playerAlive === true){
        _enemy.update();
+      } else {
+        _enemy.sceneStop();
+      }
      });
 
      // what needs pauzing on main scene
      if (this.scenePause !== true && this.playerAlive === true) {
-
-
        // this.controls.update(delta);
        this.player.setVelocity(0);
        // this.npc1.setVelocity(0);
@@ -300,7 +312,7 @@
      } else {
        // NOTE: GAMELoop is Pauzed or player is dead
        //RADmenu testing
-
+       this.player.setVelocity(0);
        // this.radmenu.rotation += 0.05;
      }
 
@@ -343,7 +355,9 @@
 
 
 
-
+   enemyHitWall(_enemy){
+    _enemy.changeVelocity();
+   }
 
 
 

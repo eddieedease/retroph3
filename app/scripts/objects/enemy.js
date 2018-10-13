@@ -14,9 +14,9 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
     this.enemytype = Math.floor((Math.random() * 3) + 1);
     this.speedz = Math.floor((Math.random() * 30) + 27);
     // This setsize is for for the body, 'true' is for from the center
-    this.setSize(7, 7, true);
     // activate physics on object
     scene.physics.add.existing(this, false);
+    this.body.setVelocity(-16, -16);
     // set up on enemy type, animations and add them if they do not exist
     switch (this.enemytype) {
       case 1:
@@ -169,7 +169,33 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
     }
   }
 
+  sceneStop() {
+    this.body.velocity.x = 0;
+    this.body.velocity.y = 0;
+  }
 
+  changeVelocity() {
+
+    let x1 = Math.floor((Math.random() * 2) + 1);
+    let x2 = Math.floor((Math.random() * 2) + 1);
+    let v1;
+    let v2;
+
+    if (x1 === 1) {
+      v1 = -20;
+    } else {
+      v1 = 20;
+    }
+
+    if (x2 === 1) {
+      v2 = -20;
+    } else {
+      v2 = 20;
+    }
+
+    this.body.velocity.x = v1;
+    this.body.velocity.y = v2;
+  }
   /**
    *  UPDATE OBJECT LOOP
    */
@@ -177,8 +203,8 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
     // Move to player
     // check mainscene pause variable
     // console.log(this.scene.scenePause);
-    if (this.scene.scenePause !== true){
-      this.scene.physics.moveToObject(this, this.scene.player, this.speedz);
+    if (this.scene.scenePause !== true) {
+      // this.scene.physics.moveToObject(this, this.scene.player, this.speedz);
       // npc state var loop, set null
       let npcnewstate = null;
       if (this.body.velocity.x > 15) {
@@ -216,12 +242,12 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         }
       }
     } else {
-      
+
       // Game is pauzes
       //this.body.velocity.x = 0;
       //this.body.velocity.y = 0;
     }
 
-    
+
   }
 }
