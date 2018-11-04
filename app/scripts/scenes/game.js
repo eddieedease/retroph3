@@ -1,6 +1,8 @@
  import Enemy from '@/objects/enemy';
  import Texter from '@/objects/texter';
 
+ 
+ 
  export default class Game extends Phaser.Scene {
    /**
     *  A sample Game scene, displaying the Phaser logo.
@@ -25,6 +27,8 @@
      // this.logo = this.add.existing(new Logo(this));
 
      let thisRef = this;
+
+     let shader = 1;
 
      // loading the json tilemap
      this.map = this.make.tilemap({
@@ -51,8 +55,8 @@
      this.enemy3 = this.add.existing(new Enemy(this, 500, 400));
      this.enemy4 = this.add.existing(new Enemy(this, 400, 400));
      this.enemy5 = this.add.existing(new Enemy(this, 300, 300));
-     this.enemy6 = this.add.existing(new Enemy(this, 100, 400));
-     this.enemy7 = this.add.existing(new Enemy(this, 300, 100));
+     this.enemy6 = this.add.existing(new Enemy(this, 100, 500));
+     this.enemy7 = this.add.existing(new Enemy(this, 300, 50));
      this.enemy8 = this.add.existing(new Enemy(this, 400, 400));
      this.enemy9 = this.add.existing(new Enemy(this, 200, 400));
      this.enemy10 = this.add.existing(new Enemy(this, 100, 150));
@@ -89,6 +93,8 @@
      this.cameras.main.setZoom(3.4);
      this.cameras.main.roundPixels = true;
      this.cameras.main.startFollow(this.player, true, 0.8, 0.8);
+
+     // this.cameras.main.setRenderToTexture(customPipeline2);
 
      // collision tileset and player & rest
      this.physics.add.collider(this.player, this.layercol);
@@ -260,6 +266,8 @@
     *  @param {number} dt Time elapsed since last update.
     */
    update( /* t, dt */ ) {
+
+ 
 
      // Pause VAR -- check if the main game needs to be updated
 

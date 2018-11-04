@@ -11,7 +11,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
     this.x = x;
     this.y = y;
     // randommer enemytipe + followspeed
-    this.enemytype = Math.floor((Math.random() * 3) + 1);
+    this.enemytype = Math.floor((Math.random() * 6) + 1);
     this.speedz = Math.floor((Math.random() * 30) + 27);
     // This setsize is for for the body, 'true' is for from the center
     // activate physics on object
@@ -165,6 +165,153 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         this.downframes = 'npcdown3';
         this.sideframes = 'npcside3';
         this.idleframes = 'npcidle3';
+        break;
+      case 4:
+        // enemy animations setup
+        var npcup4 = {
+          key: 'npcup4',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 42,
+            end: 44
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcdown4 = {
+          key: 'npcdown4',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 6,
+            end: 8
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcside4 = {
+          key: 'npcside4',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 30,
+            end: 32
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcidle4 = {
+          key: 'npcidle4',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 7,
+            end: 7
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        // adding animations
+        // ENEMY ANIMATIONS
+        scene.anims.create(npcup4);
+        scene.anims.create(npcdown4);
+        scene.anims.create(npcside4);
+        scene.anims.create(npcidle4);
+        this.upframes = 'npcup4';
+        this.downframes = 'npcdown4';
+        this.sideframes = 'npcside4';
+        this.idleframes = 'npcidle4';
+        break;
+      case 5:
+        // enemy animations setup
+        var npcup5 = {
+          key: 'npcup5',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 45,
+            end: 47
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcdown5 = {
+          key: 'npcdown5',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 9,
+            end: 11
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcside5 = {
+          key: 'npcside5',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 33,
+            end: 35
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcidle5 = {
+          key: 'npcidle5',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 10,
+            end: 10
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        // adding animations
+        // ENEMY ANIMATIONS
+        scene.anims.create(npcup5);
+        scene.anims.create(npcdown5);
+        scene.anims.create(npcside5);
+        scene.anims.create(npcidle5);
+        this.upframes = 'npcup5';
+        this.downframes = 'npcdown5';
+        this.sideframes = 'npcside5';
+        this.idleframes = 'npcidle5';
+        break;
+      case 6:
+        // enemy animations setup
+        var npcup6 = {
+          key: 'npcup6',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 87,
+            end: 89
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcdown6 = {
+          key: 'npcdown6',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 51,
+            end: 53
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcside6 = {
+          key: 'npcside6',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 75,
+            end: 77
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        var npcidle6 = {
+          key: 'npcidle6',
+          frames: scene.anims.generateFrameNumbers('npc', {
+            start: 52,
+            end: 52
+          }),
+          frameRate: 5,
+          repeat: -1
+        };
+        // adding animations
+        // ENEMY ANIMATIONS
+        scene.anims.create(npcup6);
+        scene.anims.create(npcdown6);
+        scene.anims.create(npcside6);
+        scene.anims.create(npcidle6);
+        this.upframes = 'npcup6';
+        this.downframes = 'npcdown6';
+        this.sideframes = 'npcside6';
+        this.idleframes = 'npcidle6';
         break;
     }
   }

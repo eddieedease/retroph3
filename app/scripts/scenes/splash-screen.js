@@ -1,3 +1,5 @@
+
+
 export default class SplashScreen extends Phaser.Scene {
   /**
    *  Takes care of loading the main game assets, including textures, tile
@@ -32,6 +34,10 @@ export default class SplashScreen extends Phaser.Scene {
     //  Display cover and progress bar textures.
     this.showCover();
     this.showProgressBar();
+
+    // camera pipeline
+    // customPipeline2 = this.game.renderer.addPipeline('Custom2', new CustomPipeline2(this.game));
+
 
     //  HINT: Declare all game assets to be loaded here.
     // this.load.image('logo');
@@ -84,6 +90,8 @@ export default class SplashScreen extends Phaser.Scene {
   create() {
     //  We have nothing left to do here. Start the next scene.
     this.scene.start('Game');
+
+    
   }
 
   //  ------------------------------------------------------------------------
@@ -115,5 +123,11 @@ export default class SplashScreen extends Phaser.Scene {
     //  Crop the filler along its width, proportional to the amount of files
     //  loaded.
     this.load.on('progress', v => img.setCrop(0, 0, Math.ceil(v * w), h));
-  }
+  } 
 }
+
+
+
+
+
+ 
