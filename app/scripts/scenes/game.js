@@ -39,6 +39,7 @@
      this.tiles2 = this.map.addTilesetImage('tileset2extruded', 'tiles2', 16, 16);
 
      this.layerbg = this.map.createStaticLayer(0, this.tiles, 0, 0).setScale(1);
+     this.layerbg2 = this.map.createStaticLayer(4, this.tiles2, 0, 0).setScale(1);
 
      // cursor keys (disabled cause WASD movement)
      // this.cursors = this.input.keyboard.createCursorKeys();
