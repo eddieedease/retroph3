@@ -37,9 +37,9 @@
 
      this.tiles = this.map.addTilesetImage('roguelike_city', 'tiles', 16, 16);
      this.tiles2 = this.map.addTilesetImage('tileset2extruded', 'tiles2', 16, 16);
-
+     
      this.layerbg = this.map.createStaticLayer(0, this.tiles, 0, 0).setScale(1);
-     this.layerbg2 = this.map.createStaticLayer(4, this.tiles2, 0, 0).setScale(1);
+     this.layerbg2 = this.map.createStaticLayer(1, this.tiles2, 0, 0).setScale(1);
 
      // cursor keys (disabled cause WASD movement)
      // this.cursors = this.input.keyboard.createCursorKeys();
@@ -85,9 +85,9 @@
 
 
 
-     this.layer1 = this.map.createStaticLayer(1, this.tiles, 0, 0).setScale(1);
-     this.layercol = this.map.createStaticLayer(2, this.tiles, 0, 0).setScale(1);
-      this.layer2 = this.map.createStaticLayer(3, this.tiles2, 0, 0).setScale(1);
+     this.layer1 = this.map.createStaticLayer(2, this.tiles, 0, 0).setScale(1);
+     this.layercol = this.map.createStaticLayer(3, this.tiles, 0, 0).setScale(1);
+
      this.layercol.setCollisionBetween(715, 716);
      this.layercol.visible = false;
      this.cameras.main.setSize(900, 700);
@@ -102,7 +102,7 @@
      // collision tileset and player & rest
      this.physics.add.collider(this.player, this.layercol);
 
-     // enemey colliders
+     // enemey collider
      this.enemyArray.forEach(_enemy => {
        this.physics.add.collider(_enemy, this.layercol, this.enemyHitWall);
      });
