@@ -87,7 +87,7 @@
 
      this.layer1 = this.map.createStaticLayer(2, this.tiles, 0, 0).setScale(1);
      this.layercol = this.map.createStaticLayer(3, this.tiles, 0, 0).setScale(1);
-
+     this.layer2 = this.map.createStaticLayer(4, this.tiles2, 0, 0).setScale(1);
      this.layercol.setCollisionBetween(715, 716);
      this.layercol.visible = false;
      this.cameras.main.setSize(900, 700);
