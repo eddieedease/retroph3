@@ -22,6 +22,7 @@ export const width = 900;
  */
 export const height = 600;
 
+
 /**
  *  Adjust zoom factor.
  */

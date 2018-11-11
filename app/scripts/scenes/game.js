@@ -35,6 +35,8 @@
        key: 'tileset'
      });
 
+     console.log('map = ' + this.map.height);
+
      this.tiles = this.map.addTilesetImage('roguelike_city', 'tiles', 16, 16);
      this.tiles2 = this.map.addTilesetImage('tileset2extruded', 'tiles2', 16, 16);
      
@@ -75,6 +77,7 @@
           // TODO: HERE is the player colliding with enemies
           // dthis.playerAlive = false;
           // this.gameoverscreen.visible = true;
+          this.cameras.main.flash();
           
       }, null, this);
      });
@@ -91,11 +94,17 @@
      this.layercol.setCollisionBetween(715, 716);
      this.layercol.visible = false;
      this.cameras.main.setSize(900, 700);
-     this.cameras.main.setBounds(0, 0);
+     this.cameras.main.setBounds(0, 0, 2400, 1600);
 
-     this.cameras.main.setZoom(3.4);
-     this.cameras.main.roundPixels = true;
+     this.cameras.main.setZoom(3);
+     this.cameras.main.roundPixels = false;
      this.cameras.main.startFollow(this.player, true, 0.8, 0.8);
+
+      //  The miniCam is 400px wide, so can display the whole world at a zoom of 0.2
+    // this.minimap = this.cameras.add(200, 10, 400, 100).setZoom(0.2).setName('mini');
+    // this.minimap.setBackgroundColor(0x002244);
+    // this.minimap.scrollX = 1600;
+    // this.minimap.scrollY = 300;
 
      // this.cameras.main.setRenderToTexture(customPipeline2);
 
