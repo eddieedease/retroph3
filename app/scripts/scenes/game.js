@@ -1,8 +1,8 @@
  import Enemy from '@/objects/enemy';
  import Texter from '@/objects/texter';
 
- 
- 
+
+
  export default class Game extends Phaser.Scene {
    /**
     *  A sample Game scene, displaying the Phaser logo.
@@ -39,7 +39,7 @@
 
      this.tiles = this.map.addTilesetImage('roguelike_city', 'tiles', 16, 16);
      this.tiles2 = this.map.addTilesetImage('tileset2extruded', 'tiles2', 16, 16);
-     
+
      this.layerbg = this.map.createStaticLayer(0, this.tiles, 0, 0).setScale(1);
      this.layerbg2 = this.map.createStaticLayer(1, this.tiles2, 0, 0).setScale(1);
 
@@ -66,20 +66,19 @@
      this.enemy10 = this.add.existing(new Enemy(this, 100, 150));
 
      // Adding them to the Array
-     this.enemyArray = [this.enemy, this.enemy2, this.enemy3, this.enemy4, this.enemy5, this.enemy6,this.enemy7,this.enemy8,this.enemy9,this.enemy10];
+     this.enemyArray = [this.enemy, this.enemy2, this.enemy3, this.enemy4, this.enemy5, this.enemy6, this.enemy7, this.enemy8, this.enemy9, this.enemy10];
 
      this.enemyArray.forEach(_enemy => {
-      let collider = this.physics.add.overlap(_enemy, this.player, function (clownOnBlock)
-      {
-          // clownOnBlock.body.stop();
-          // this.physics.world.removeCollider(collider);
-          // this.cameras.main.flash(500);
-          // TODO: HERE is the player colliding with enemies
-          // dthis.playerAlive = false;
-          // this.gameoverscreen.visible = true;
-          this.cameras.main.flash();
-          
-      }, null, this);
+       let collider = this.physics.add.overlap(_enemy, this.player, function (clownOnBlock) {
+         // clownOnBlock.body.stop();
+         // this.physics.world.removeCollider(collider);
+         // this.cameras.main.flash(500);
+         // TODO: HERE is the player colliding with enemies
+         // dthis.playerAlive = false;
+         // this.gameoverscreen.visible = true;
+         this.cameras.main.flash();
+
+       }, null, this);
      });
 
      this.scenePause = false;
@@ -100,11 +99,55 @@
      this.cameras.main.roundPixels = false;
      this.cameras.main.startFollow(this.player, true, 0.8, 0.8);
 
-      //  The miniCam is 400px wide, so can display the whole world at a zoom of 0.2
-    // this.minimap = this.cameras.add(200, 10, 400, 100).setZoom(0.2).setName('mini');
-    // this.minimap.setBackgroundColor(0x002244);
-    // this.minimap.scrollX = 1600;
-    // this.minimap.scrollY = 300;
+
+
+     this.sprites = [];
+
+     //  Create the particles
+     for (var i = 0; i < 400; i++) {
+       var x = Phaser.Math.Between(-64, 900);
+       var y = Phaser.Math.Between(-64, 700);
+
+       this.image = this.add.image(x, y, 'particle').setScrollFactor(0).setAlpha(0.15);
+
+       //  Canvas and WebGL:
+
+       // NORMAL
+       // ADD
+       // MULTIPLY
+       // SCREEN
+
+       //  Canvas only:
+
+       // OVERLAY
+       // DARKEN
+       // LIGHTEN
+       // COLOR_DODGE
+       // COLOR_BURN
+       // HARD_LIGHT
+       // SOFT_LIGHT
+       // DIFFERENCE
+       // EXCLUSION
+       // HUE
+       // SATURATION
+       // COLOR
+       // LUMINOSITY
+
+       // image.setBlendMode(Phaser.BlendModes.OVERLAY);
+       this.image.setBlendMode(Phaser.BlendModes.ADD);
+
+       this.sprites.push({
+         s: this.image,
+         r: 2 + Math.random() * 6
+       });
+     }
+
+
+     //  The miniCam is 400px wide, so can display the whole world at a zoom of 0.2
+     // this.minimap = this.cameras.add(200, 10, 400, 100).setZoom(0.2).setName('mini');
+     // this.minimap.setBackgroundColor(0x002244);
+     // this.minimap.scrollX = 1600;
+     // this.minimap.scrollY = 300;
 
      // this.cameras.main.setRenderToTexture(customPipeline2);
 
@@ -175,7 +218,7 @@
      this.radmenu = this.add.image(500, 200, 'mball').setScale(0.5);
      this.radmenu.visible = false;
      // gameover screen
-     this.gameoverscreen = this.add.image(450, 350 , 'gameover').setScale(0.7).setScrollFactor(0);;
+     this.gameoverscreen = this.add.image(450, 350, 'gameover').setScale(0.7).setScrollFactor(0);;
      this.gameoverscreen.visible = false;
 
      this.texter = this.add.existing(new Texter(this, 100, 200));
@@ -218,7 +261,7 @@
          this.radmenu.y = this.player.y;
        } else {
          this.scenePause = false;
-        // console.log('resume');
+         // console.log('resume');
          this.radmenu.visible = false;
          this.physics.resume();
          this.anims.resumeAll();
@@ -235,12 +278,14 @@
        // check if the action is paused
        if (thisRef.scenePause === true && thisRef.allowMenuLeft === true) {
          thisRef.allowMenuLeft = false;
-        console.log('A is pressed');
-        thisRef.tweens.add({
+         console.log('A is pressed');
+         thisRef.tweens.addsd({
            targets: thisRef.radmenu,
            ease: 'Power1',
            duration: 250,
-           onComplete: function () { thisRef.allowMenuLeft = true; },
+           onComplete: function () {
+             thisRef.allowMenuLeft = true;
+           },
            angle: thisRef.radmenu.angle - 90
          });
        }
@@ -248,12 +293,14 @@
      // right
      this.input.keyboard.on('keydown_D', function (event) {
        if (thisRef.scenePause === true && thisRef.allowMenuRight === true) {
-        thisRef.allowMenuRight = false;
-        thisRef.tweens.add({
+         thisRef.allowMenuRight = false;
+         thisRef.tweens.add({
            targets: thisRef.radmenu,
            ease: 'Power1',
            duration: 250,
-           onComplete: function () { thisRef.allowMenuRight = true; },
+           onComplete: function () {
+             thisRef.allowMenuRight = true;
+           },
            angle: thisRef.radmenu.angle + 90
          });
        }
@@ -279,27 +326,40 @@
     */
    update( /* t, dt */ ) {
 
- 
+
 
      // Pause VAR -- check if the main game needs to be updated
 
-     // group of enemies update
+     // group of enemiews update
      this.enemyArray.forEach(_enemy => {
        //_enemy.update();
 
        let random = Math.floor((Math.random() * 200) + 1);
-        if (random === 100){
-          _enemy.changeVelocity();
-        }
-       if (this.playerAlive === true){
-       _enemy.update();
-      } else {
-        _enemy.sceneStop();
-      }
+       if (random === 100) {
+         _enemy.changeVelocity();
+       }
+       if (this.playerAlive === true) {
+         _enemy.update();
+       } else {
+         _enemy.sceneStop();
+       }
      });
 
      // what needs pauzing on main scene
      if (this.scenePause !== true && this.playerAlive === true) {
+
+       // The particle update loop
+       for (var i = 0; i < this.sprites.length; i++) {
+         var sprite = this.sprites[i].s;
+        
+         sprite.y += this.sprites[i].r - 5;
+
+         if (sprite.y < -256) {
+           sprite.y = 700;
+         }
+       }
+
+
        // this.controls.update(delta);
        this.player.setVelocity(0);
        // this.npc1.setVelocity(0);
@@ -375,8 +435,8 @@
 
 
 
-   enemyHitWall(_enemy){
-    _enemy.changeVelocity();
+   enemyHitWall(_enemy) {
+     _enemy.changeVelocity();
    }
 
 
