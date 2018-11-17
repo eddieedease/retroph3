@@ -104,11 +104,11 @@
      this.sprites = [];
 
      //  Create the particles
-     for (var i = 0; i < 400; i++) {
-       var x = Phaser.Math.Between(-64, 900);
-       var y = Phaser.Math.Between(-64, 700);
+     for (var i = 0; i < 200; i++) {
+       var x = Phaser.Math.Between(0, 900);
+       var y = Phaser.Math.Between(0, 700);
 
-       this.image = this.add.image(x, y, 'particle').setScrollFactor(0).setAlpha(0.15);
+       this.image = this.add.image(x, y, 'particle').setScrollFactor(0).setAlpha(0.2);
 
        //  Canvas and WebGL:
 
@@ -134,7 +134,7 @@
        // LUMINOSITY
 
        // image.setBlendMode(Phaser.BlendModes.OVERLAY);
-       this.image.setBlendMode(Phaser.BlendModes.ADD);
+       this.image.setBlendMode(Phaser.BlendModes.OVERLAY);
 
        this.sprites.push({
          s: this.image,
@@ -259,12 +259,18 @@
          this.anims.pauseAll();
          this.radmenu.x = this.player.x;
          this.radmenu.y = this.player.y;
+
+         // testing: show texter
+         this.texter.updateText(this.player.x,this.player.y,'newtext')
        } else {
          this.scenePause = false;
          // console.log('resume');
          this.radmenu.visible = false;
          this.physics.resume();
          this.anims.resumeAll();
+
+         // testing: hide texter
+         this.texter.hideTexter();
        }
      }, this);
 
@@ -279,7 +285,7 @@
        if (thisRef.scenePause === true && thisRef.allowMenuLeft === true) {
          thisRef.allowMenuLeft = false;
          console.log('A is pressed');
-         thisRef.tweens.addsd({
+         thisRef.tweens.add({
            targets: thisRef.radmenu,
            ease: 'Power1',
            duration: 250,
@@ -348,11 +354,11 @@
      // what needs pauzing on main scene
      if (this.scenePause !== true && this.playerAlive === true) {
 
-       // The particle update loop
+       // The psarticle update loop
        for (var i = 0; i < this.sprites.length; i++) {
          var sprite = this.sprites[i].s;
         
-         sprite.y += this.sprites[i].r - 5;
+         sprite.y -= this.sprites[i].r - 4;
 
          if (sprite.y < -256) {
            sprite.y = 700;
