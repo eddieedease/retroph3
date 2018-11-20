@@ -92,7 +92,12 @@ export default class SplashScreen extends Phaser.Scene {
    */
   create() {
     //  We have nothing left to do here. Start the next scene.
-    this.scene.start('Game');
+    
+
+    this.input.on('pointerdown', function (pointer) {
+
+      this.scene.start('Game');
+  }, this);
 
     
   }
@@ -121,7 +126,7 @@ export default class SplashScreen extends Phaser.Scene {
     } = this.textures.get('progress-bar').get();
 
     //  Place the filler over the progress bar of the splash screen.
-    const img = this.add.sprite(100, 350, 'progress-bar').setOrigin(0);
+    const img = this.add.sprite(100, 350, 'progress-bar').setOrigin(0).setScale(0.9);
 
     //  Crop the filler along its width, proportional to the amount of files
     //  loaded.
