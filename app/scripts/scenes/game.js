@@ -92,7 +92,7 @@
      this.layer2 = this.map.createStaticLayer(4, this.tiles2, 0, 0).setScale(1);
      this.layercol.setCollisionBetween(715, 716);
      this.layercol.visible = false;
-     this.cameras.main.setSize(900, 700);
+     this.cameras.main.setSize(900, 600);
      this.cameras.main.setBounds(0, 0, 2400, 1600);
 
      this.cameras.main.setZoom(3);
@@ -214,12 +214,17 @@
        y: this.player.y
      };
 
+     this.pinhole = this.add.image(450, 300, 'pinhole').setScale(0.4).setScrollFactor(0).setAlpha(0.9);
+
      // THe RADMENU
      this.radmenu = this.add.image(500, 200, 'mball').setScale(0.5);
      this.radmenu.visible = false;
      // gameover screen
-     this.gameoverscreen = this.add.image(450, 350, 'gameover').setScale(0.7).setScrollFactor(0);;
+     this.gameoverscreen = this.add.image(450, 300, 'gameover').setScale(0.7).setScrollFactor(0);
      this.gameoverscreen.visible = false;
+
+
+
 
      this.texter = this.add.existing(new Texter(this, 100, 200));
 
@@ -261,7 +266,7 @@
          this.radmenu.y = this.player.y;
 
          // testing: show texter
-         this.texter.updateText(this.player.x,this.player.y,'newtext')
+         this.texter.updateText(this.player.x,this.player.y,'newtext');
        } else {
          this.scenePause = false;
          // console.log('resume');
@@ -318,6 +323,9 @@
      this.downKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
      this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
      this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+     // Add pinhole effect
+
    }
 
 
