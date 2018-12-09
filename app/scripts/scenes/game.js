@@ -108,7 +108,7 @@
        var x = Phaser.Math.Between(0, 900);
        var y = Phaser.Math.Between(0, 700);
 
-       this.image = this.add.image(x, y, 'particle').setScrollFactor(0).setAlpha(0.2);
+       this.image = this.add.image(x, y, 'particle').setScrollFactor(0).setAlpha(0.1);
 
        //  Canvas and WebGL:
 
@@ -214,7 +214,7 @@
        y: this.player.y
      };
 
-     this.pinhole = this.add.image(450, 300, 'pinhole').setScale(0.4).setScrollFactor(0).setAlpha(0.9);
+     this.pinhole = this.add.image(450, 300, 'pinhole').setScale(0.4).setScrollFactor(0).setAlpha(0.8);
 
      // THe RADMENU
      this.radmenu = this.add.image(500, 200, 'mball').setScale(0.5);
