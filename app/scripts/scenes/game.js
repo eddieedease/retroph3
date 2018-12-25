@@ -261,12 +261,12 @@
          // this.scene.pause();
          this.radmenu.visible = true;
          this.physics.pause();
-         this.anims.pauseAll();
+         this.anims.pawuseAll();
          this.radmenu.x = this.player.x;
          this.radmenu.y = this.player.y;
 
          // testing: show texter
-         this.texter.updateText(this.player.x,this.player.y,'newtext');
+         this.texter.updateText(this.player.x,this.player.y,'I did\nsumethangz');
        } else {
          this.scenePause = false;
          // console.log('resume');
