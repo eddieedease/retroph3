@@ -104,43 +104,19 @@
      this.sprites = [];
 
      //  Create the particles
-     for (var i = 0; i < 200; i++) {
-       var x = Phaser.Math.Between(0, 900);
-       var y = Phaser.Math.Between(0, 700);
+    //  for (var i = 0; i < 200; i++) {
+    //    var x = Phaser.Math.Between(0, 900);
+    //    var y = Phaser.Math.Between(0, 700);
 
-       this.image = this.add.image(x, y, 'particle').setScrollFactor(0).setAlpha(0.1);
+    //    this.image = this.add.image(x, y, 'particle').setScrollFactor(0).setAlpha(0.1);
+                                                        
+    //    this.image.setBlendMode(Phaser.BlendModes.OVERLAY);
 
-       //  Canvas and WebGL:
-
-       // NORMAL
-       // ADD
-       // MULTIPLY
-       // SCREEN
-
-       //  Canvas only:
-
-       // OVERLAY
-       // DARKEN
-       // LIGHTEN
-       // COLOR_DODGE
-       // COLOR_BURN
-       // HARD_LIGHT
-       // SOFT_LIGHT
-       // DIFFERENCE
-       // EXCLUSION
-       // HUE
-       // SATURATION
-       // COLOR
-       // LUMINOSITY
-
-       // image.setBlendMode(Phaser.BlendModes.OVERLAY);
-       this.image.setBlendMode(Phaser.BlendModes.OVERLAY);
-
-       this.sprites.push({
-         s: this.image,
-         r: 2 + Math.random() * 6
-       });
-     }
+    //    this.sprites.push({
+    //      s: this.image,
+    //      r: 2 + Math.random() * 6
+    //    });
+    //  }
 
 
      //  The miniCam is 400px wide, so can display the whole world at a zoom of 0.2
@@ -261,7 +237,7 @@
          // this.scene.pause();
          this.radmenu.visible = true;
          this.physics.pause();
-         this.anims.pawuseAll();
+         this.anims.pauseAll();
          this.radmenu.x = this.player.x;
          this.radmenu.y = this.player.y;
 

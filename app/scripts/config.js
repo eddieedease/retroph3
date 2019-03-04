@@ -12,15 +12,7 @@ import * as scenes from '@/scenes';
 // import ExamplePlugin from 'example-plugin';
 // import ExampleScenePlugin from '@/plugins/example-scene-plugin';
 
-/**
- *  Game canvas width.
- */
-export const width = 900;
 
-/**
- *  Game canvas height.
- */
-export const height = 600;
 
 
 /**
@@ -31,7 +23,7 @@ export const zoom = 1;
 /**
  *  Adjust pixel density of game graphics.
  */
-export const resolution = 2;
+export const resolution = 1;
 
 /**
  *  Choose a rendering method.
@@ -43,12 +35,13 @@ export const resolution = 2;
  *    - `AUTO`: Phaser will choose, based on device capabilities, the best
  *      rendering method to be used.
  */
-export const type = Phaser.WEBGL;
+export const type = Phaser.AUTO;
 
 /**
  *  Whether to disable antialiasing or not. Great for pixel art.
  */
 export const pixelArt = false;
+
 
 /**
  *  Whether to enable canvas transparency or not.
@@ -64,6 +57,15 @@ export const canvasStyle = 'display: block; margin: 0 auto;';
  *  Define a default a background color.
  */
 export const backgroundColor = '#000000';
+
+export const scale = {
+  parent: 'phaser-example',
+  mode: Phaser.Scale.FIT,
+  autoCenter: Phaser.Scale.CENTER_BOTH,
+  width:900,
+  height: 600
+};
+
 
 /**
  *  Configure physics engines global parameters.
