@@ -242,7 +242,7 @@
          this.radmenu.y = this.player.y;
 
          // testing: show texter
-         this.texter.updateText(this.player.x,this.player.y,'I did\nsumethangz');
+         this.texter.updateText(this.player.x,this.player.y,'I need some\nmotivation\nOh! Fancy ringmenu');
        } else {
          this.scenePause = false;
          // console.log('resume');
@@ -356,22 +356,22 @@
        var _newstate;
        if (this.leftKey.isDown) {
          _newstate = 'sideways';
-         this.player.setVelocityX(-100);
+         this.player.setVelocityX(-85);
          this.player.setFlipX(true);
          // this.cameras.main.followOffset.x = 300;
        } else if (this.rightKey.isDown) {
          _newstate = 'sideways';
-         this.player.setVelocityX(100);
+         this.player.setVelocityX(85);
          this.player.setFlipX(false);
 
          // this.cameras.main.followOffset.x = -300;
        } else if (this.upKey.isDown) {
          _newstate = 'up';
-         this.player.setVelocityY(-100);
+         this.player.setVelocityY(-85);
          // this.cameras.main.followOffset.x = -300;
        } else if (this.downKey.isDown) {
          _newstate = 'down';
-         this.player.setVelocityY(100);
+         this.player.setVelocityY(85);
          // this.cameras.main.followOffset.x = -300;
        } else {
          _newstate = 'idle';
