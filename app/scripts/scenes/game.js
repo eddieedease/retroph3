@@ -23,9 +23,8 @@
     *  @param {object} data Initialization parameters.
     */
    create( /* data */ ) {
-     //  NOTE: Below is template use of objects
-     // this.logo = this.add.existing(new Logo(this));
 
+    // the ref to this is pretty important
      let thisRef = this;
 
      let shader = 1;
@@ -52,6 +51,8 @@
      // set up a boolean for our player alive status
      this.playerAlive = true;
 
+     this.playerInvincible = false;
+
 
      // we want this to be a group eventually
      this.enemy = this.add.existing(new Enemy(this, 100, 200));
@@ -69,15 +70,32 @@
      this.enemyArray = [this.enemy, this.enemy2, this.enemy3, this.enemy4, this.enemy5, this.enemy6, this.enemy7, this.enemy8, this.enemy9, this.enemy10];
 
      this.enemyArray.forEach(_enemy => {
-       let collider = this.physics.add.overlap(_enemy, this.player, function (clownOnBlock) {
+       
+        let collider = this.physics.add.overlap(_enemy, this.player, function (clownOnBlock) {
          // clownOnBlock.body.stop();
          // this.physics.world.removeCollider(collider);
          // this.cameras.main.flash(500);
          // TODO: HERE is the player colliding with enemies
          // dthis.playerAlive = false;
          // this.gameoverscreen.visible = true;
-         this.cameras.main.flash();
+          if (this.playerInvincible !== true){
+            this.cameras.main.flash();
+            this.scene.pause();
+            this.playerInvincible = true;
+            this.invisEvent = this.time.addEvent({ delay: 5000, callback: this.inVinsibleForAsec, callbackScope: this, repeat: 0 });
+            this.input.stopPropagation();
+           
+            this.scene.launch('MiniGame');
+            this.upKey.isDown = false;
+            this.downKey.isDown = false;
+            this.leftKey.isDown = false;
+            this.rightKey.isDown = false;
+          } else {
+            
+          }
+         
 
+         
        }, null, this);
      });
 
@@ -303,6 +321,12 @@
      // Add pinhole effect
 
    }
+
+   inVinsibleForAsec (){
+    this.playerInvincible = false;
+    console.log('comes here');
+
+}
 
 
 
