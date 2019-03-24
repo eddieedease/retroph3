@@ -24,73 +24,10 @@ export default class Minigame extends Phaser.Scene {
 
      let thisRef = this;
 
-     let shader = 1;
-
-     this.playerAlive = true;
-
-     // the walker
-     this.player = this.physics.add.sprite(50, 100, 'player').setScale(0.3);
-
-     var playerup = {
-       key: 'playerup',
-       frames: this.anims.generateFrameNumbers('player', {
-         start: 12,
-         end: 15
-       }),
-       frameRate: 5,
-       repeat: -1
-     };
-
-     var playerdown = {
-       key: 'playerdown',
-       frames: this.anims.generateFrameNumbers('player', {
-         start: 0,
-         end: 3
-       }),
-       frameRate: 5,
-       repeat: -1
-     };
-
-     var playerside = {
-       key: 'playerside',
-       frames: this.anims.generateFrameNumbers('player', {
-         start: 4,
-         end: 7
-       }),
-       frameRate: 5,
-       repeat: -1
-     };
-
-     var playeridle = {
-       key: 'playeridle',
-       frames: this.anims.generateFrameNumbers('player', {
-         start: 1,
-         end: 1
-       }),
-       frameRate: 5,
-       repeat: -1
-     };
-
+     this.a = 0;
 
      // space key bar
-     this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-
-
-     // PLAYER ANIMATIONS
-     this.anims.create(playerup);
-     this.anims.create(playerdown);
-     this.anims.create(playerside);
-     this.anims.create(playeridle);
-
-     // this.physics.accelerateToObject(this.npc1, this.player, 60, 300, 300);
-
-     this.playerxy = {
-       x: this.player.x,
-       y: this.player.y
-     };
-
-     // this.pinhole = this.add.image(450, 300, 'pinhole').setScale(0.4).setScrollFactor(0).setAlpha(0.8);
+     this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
      // Register KEYS for movement (Instead of cursorkeys)
 
@@ -99,7 +36,14 @@ export default class Minigame extends Phaser.Scene {
      this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
      this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-     // Add pinhole effect
+     // Circle
+     this.graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x00ff00 }, fillStyle: { color: 0xff0000 }});
+
+     this.circle = new Phaser.Geom.Circle(450, 300, 280, 200);
+     this.point = new Phaser.Geom.Rectangle(0, 0, 16, 16);
+
+     this.playerShip = this.add.image(500, 200, 'ship').setScale(0.5);
+ 
    }
 
 
@@ -114,92 +58,54 @@ export default class Minigame extends Phaser.Scene {
     */
    update( /* t, dt */ ) {
 
+    
+     // Circler update
+     // this.a += 0.01;
+
+     if (this.a > 1)
+     {
+         this.a = 0;
+     }
+
+
+     if (this.leftKey.isDown) {
+      this.a += 0.005;
+      if (this.a > 1)
+      {
+          this.a = 0;
+      }
+
+     } else if (this.rightKey.isDown) {
+      this.a -= 0.005;
+      if (this.a < 0)
+      {
+          this.a = 1;
+      }
+      }
+
+      
+ 
+     this.circle.getPoint(this.a, this.point);
+     this.graphics.clear();
+     this.graphics.lineStyle(2, 0x00ff00);
+     this.graphics.strokeCircleShape(this.circle);
+ 
+     this.graphics.fillStyle(0xFF0000);
+     this.graphics.fillRect(this.point.x -8 , this.point.y -8 , this.point.width, this.point.height);
+
+     this.playerShip.x = this.point.x -8;
+     this.playerShip.y = this.point.y - 8;
 
     if (this.keySpace.isDown)
     {
       this.input.stopPropagation();
       this.scene.resume('Game');
       this.scene.stop('MiniGame');
-
     }
 
-     // Pause VAR -- check if the main game needs to be updated
-
-
-     // what needs pauzing on main scene
-     if (this.playerAlive === true) {
-       // this.controls.update(delta);
-       this.player.setVelocity(0);
-       // this.npc1.setVelocity(0);
-       var _newstate;
-       if (this.leftKey.isDown) {
-         _newstate = 'sideways';
-         this.player.setVelocityX(-85);
-         this.player.setFlipX(true);
-         // this.cameras.main.followOffset.x = 300;
-       } else if (this.rightKey.isDown) {
-         _newstate = 'sideways';
-         this.player.setVelocityX(85);
-         this.player.setFlipX(false);
-
-         // this.cameras.main.followOffset.x = -300;
-       } else if (this.upKey.isDown) {
-         _newstate = 'up';
-         this.player.setVelocityY(-85);
-         // this.cameras.main.followOffset.x = -300;
-       } else if (this.downKey.isDown) {
-         _newstate = 'down';
-         this.player.setVelocityY(85);
-         // this.cameras.main.followOffset.x = -300;
-       } else {
-         _newstate = 'idle';
-       }
-       this.update_checkPlayerAnimation(_newstate);
-     } else {
-       // NOTE: GAMELoop is Pauzed or player is dead
-       //RADmenu testing
-       this.player.setVelocity(0);
-       // this.radmenu.rotation += 0.05;
-     }
-
-
-
-
-
-     // the mball update loop
-     // Phaser.Actions.SetXY(this.mballgroup.getChildren(), this.player.x, this.player.y);
-     // Phaser.Actions.RotateAroundDistance(this.mballgroup.getChildren(), { x: this.player.x, y: this.player.y }, 0.02, 50);
    }
 
-   update_checkPlayerAnimation(_newstate) {
-     // lets check if the animation needs to be changed
-     if (this.player_animstate !== _newstate) {
-       this.player_animstate = _newstate;
-       switch (_newstate) {
-         case 'sideways':
-           this.player.play('playerside');
-           //this.npc1.play('npcside');
-           break;
-         case 'idle':
-           this.player.play('playeridle');
-           // this.npc1.play('npcidle');
-           break;
-         case 'up':
-           this.player.play('playerup');
-           // this.npc1.play('npcup');
-           break;
-         case 'down':
-           this.player.play('playerdown');
-           // this.npc1.play('npcdown');
-           break;
-       }
-     } else {
-       // Do nothing and keep animation going
-     }
-   }
-
-
-
+  
    debug() {
     //  this.debugGraphics.clear();
     //  this.map.renderDebug(this.debugGraphics, {

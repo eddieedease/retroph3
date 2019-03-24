@@ -249,7 +249,7 @@
      // });
 
      //  Pausing the action, show menu ring
-     this.input.keyboard.on('keydown_SPACE', function (event) {
+     this.input.keyboard.on('keydown_F', function (event) {
        if (this.scenePause === false) {
          this.scenePause = true;
          // this.scene.pause();
