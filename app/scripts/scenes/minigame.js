@@ -39,11 +39,11 @@ export default class Minigame extends Phaser.Scene {
      // Circle
      this.graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x00ff00 }, fillStyle: { color: 0xff0000 }});
 
-     this.circle = new Phaser.Geom.Circle(450, 300, 280, 200);
+     this.circle = new Phaser.Geom.Circle(450, 300, 250, 200);
      this.point = new Phaser.Geom.Rectangle(0, 0, 16, 16);
 
-     this.playerShip = this.add.image(500, 200, 'ship').setScale(0.5);
- 
+     this.playerShip = this.add.image(500, 200, 'ship').setScale(0.4);
+     this.playerShip.angle = -90;
    }
 
 
@@ -70,16 +70,24 @@ export default class Minigame extends Phaser.Scene {
 
      if (this.leftKey.isDown) {
       this.a += 0.005;
+      this.playerShip.rotation += 0.013;
       if (this.a > 1)
       {
           this.a = 0;
+          this.playerShip.angle = -90;
+      } else {
+        this.playerShip.angle += 1.04
       }
 
      } else if (this.rightKey.isDown) {
       this.a -= 0.005;
+      this.playerShip.rotation -= 0.013;
       if (this.a < 0)
       {
           this.a = 1;
+          this.playerShip.angle == -90;
+      } else {
+        this.playerShip.angle -= 1.04
       }
       }
 
@@ -95,6 +103,7 @@ export default class Minigame extends Phaser.Scene {
 
      this.playerShip.x = this.point.x -8;
      this.playerShip.y = this.point.y - 8;
+     
 
     if (this.keySpace.isDown)
     {
