@@ -44,6 +44,8 @@ export default class SplashScreen extends Phaser.Scene {
     this.load.image('bg', 'space1.png');
     this.load.image('particle', 'yellow.png');
     this.load.image('logo', 'phaser2.png');
+    this.load.image('beamball', 'beamball.png');
+    this.load.image('cursor', 'cursor.png');
 
     //this.load.image('picA', 'assets/pics/lance-overdose-loader-eye.png');
     // tilemap json

@@ -35,22 +35,48 @@ export default class Minigame extends Phaser.Scene {
     this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-    // Circle
-    this.graphics = this.add.graphics({
-      lineStyle: {
-        width: 2,
-        color: 0x00ff00
+    this.marker = this.add.image(450, 300, 'cursor').setAlpha(0.6);
+
+    this.beamball = this.add.image(450, 300, 'beamball');
+
+    this.input.on('pointerdown', function (pointer) {
+
+      thisRef.marker.setPosition(pointer.x, pointer.y);
+  });
+
+      // Circle
+      this.graphics = this.add.graphics({
+        lineStyle: {
+          width: 2,
+          color: 0x00ff00
+        },
+        fillStyle: {
+          color: 0xff0000
+        }
+      });
+  
+      this.circle = new Phaser.Geom.Circle(450, 300, 250, 200);
+      this.point = new Phaser.Geom.Rectangle(0, 0, 2, 2);
+  
+      this.playerShip = this.add.image(500, 200, 'ship').setScale(0.6);
+      this.playerShip.angle = 90;
+
+    // the tween
+    this.randomPoint = this.circle.getPoint(this.a, this.point);
+
+    this.beamballTween = this.tweens.add({
+      targets: this.beamball,
+      props: {
+          x: { value: function () { return thisRef.randomPoint.x; } },
+          y: { value: function () { return thisRef.randomPoint.y; } }
       },
-      fillStyle: {
-        color: 0xff0000
-      }
-    });
+      duration: 800,
+      repeat: -1,
+      onRepeat: function () { thisRef.randomEnemyPositionTween(); console.log(arguments); }
+  });
 
-    this.circle = new Phaser.Geom.Circle(450, 300, 250, 200);
-    this.point = new Phaser.Geom.Rectangle(0, 0, 16, 16);
 
-    this.playerShip = this.add.image(500, 200, 'ship').setScale(0.6);
-    this.playerShip.angle = 90;
+
   }
 
 
@@ -107,6 +133,12 @@ export default class Minigame extends Phaser.Scene {
       this.scene.stop('MiniGame');
     }
 
+  }
+
+  randomEnemyPositionTween(){
+    let randomnumb = Phaser.Math.Between(1, 100)
+    randomnumb = randomnumb / 100 ;
+    this.randomPoint = this.circle.getPoint(randomnumb, this.point);
   }
 
 
