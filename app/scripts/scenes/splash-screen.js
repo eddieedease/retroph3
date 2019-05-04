@@ -38,6 +38,15 @@ export default class SplashScreen extends Phaser.Scene {
     // camera pipeline
     // customPipeline2 = this.game.renderer.addPipeline('Custom2', new CustomPipeline2(this.game));
 
+    // audio files
+    this.load.audio('city', [
+      'sounds/city.ogg',
+  ]);
+
+  this.load.audio('fight', [
+    'sounds/fight.ogg',
+]);
+
 
     //  HINT: Declare all game assets to be loaded here.
     // this.load.image('logo');

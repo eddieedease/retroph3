@@ -83,8 +83,10 @@
             this.scene.pause();
             this.playerInvincible = true;
             this.invisEvent = this.time.addEvent({ delay: 5000, callback: this.inVinsibleForAsec, callbackScope: this, repeat: 0 });
+            this.resumeEvent = this.time.addEvent({ delay: 500, callback: this.ResumeNow, callbackScope: this, repeat: 0 });
+
             this.input.stopPropagation();
-           
+            this.music.pause();
             this.scene.launch('MiniGame');
             this.upKey.isDown = false;
             this.downKey.isDown = false;
@@ -104,6 +106,14 @@
      //try an npc
 
 
+     // city audio
+     this.music = this.sound.add('city',{
+      loop: true,
+       });
+
+      this.music.play();
+
+
 
      this.layer1 = this.map.createStaticLayer(2, this.tiles, 0, 0).setScale(1);
      this.layercol = this.map.createStaticLayer(3, this.tiles, 0, 0).setScale(1);
@@ -113,7 +123,7 @@
      this.cameras.main.setSize(900, 600);
      this.cameras.main.setBounds(0, 0, 2400, 1600);
 
-     this.cameras.main.setZoom(3);
+     this.cameras.main.setZoom(2);
      this.cameras.main.roundPixels = false;
      this.cameras.main.startFollow(this.player, true, 0.8, 0.8);
 
@@ -208,7 +218,7 @@
        y: this.player.y
      };
 
-     this.pinhole = this.add.image(450, 300, 'pinhole').setScale(0.4).setScrollFactor(0).setAlpha(0.8);
+     this.pinhole = this.add.image(450, 300, 'pinhole').setScale(0.6).setScrollFactor(0).setAlpha(0.8);
 
      // THe RADMENU
      this.radmenu = this.add.image(500, 200, 'mball').setScale(0.5);
@@ -325,8 +335,12 @@
    inVinsibleForAsec (){
     this.playerInvincible = false;
     console.log('comes here');
+ 
+  }
 
-}
+  ResumeNow(){
+    this.music.play();
+  }
 
 
 

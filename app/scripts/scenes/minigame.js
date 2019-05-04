@@ -22,13 +22,35 @@ export default class Minigame extends Phaser.Scene {
     // this.logo = this.add.existing(new Logo(this));
 
     let thisRef = this;
-
     this.a = 0.25;
 
     // space key bar
     this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
+    this.battleongoing = false;
+
+    this.music = this.sound.add('fight',{
+      loop: true,
+       }   );
+
+    this.music.play();
+
     // Register KEYS for movement (Instead of cursorkeys)
+
+    
+
+
+  // Making it so that the battle will begin in 4 seconds
+    this.beginBattleEvent = this.time.addEvent({ delay: 4000, callback: this.beginBattleNow, callbackScope: this, repeat: 0 });
+
+  }
+
+
+  // is called from the timer from the init
+  beginBattleNow(){
+
+    let thisRef = this;
+    this.battleongoing = true;
 
     this.upKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.downKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -40,9 +62,8 @@ export default class Minigame extends Phaser.Scene {
     this.beamball = this.add.image(450, 300, 'beamball');
 
     this.input.on('pointerdown', function (pointer) {
-
       thisRef.marker.setPosition(pointer.x, pointer.y);
-  });
+    });
 
       // Circle
       this.graphics = this.add.graphics({
@@ -74,9 +95,6 @@ export default class Minigame extends Phaser.Scene {
       repeat: -1,
       onRepeat: function () { thisRef.randomEnemyPositionTween(); console.log(arguments); }
   });
-
-
-
   }
 
 
@@ -91,52 +109,52 @@ export default class Minigame extends Phaser.Scene {
    */
   update( /* t, dt */ ) {
 
-
-    // Circler update
-    // this.a += 0.01;
-
-    if (this.a > 1) {
-      this.a = 0;
-    }
-
-
-    if (this.leftKey.isDown) {
-      this.a += 0.005;
+    if (this.battleongoing){
       if (this.a > 1) {
         this.a = 0;
       }
-
-    } else if (this.rightKey.isDown) {
-      this.a -= 0.005;
-      if (this.a < 0) {
-        this.a = 1;
+  
+  
+      if (this.leftKey.isDown) {
+        this.a += 0.005;
+        if (this.a > 1) {
+          this.a = 0;
+        }
+  
+      } else if (this.rightKey.isDown) {
+        this.a -= 0.005;
+        if (this.a < 0) {
+          this.a = 1;
+        }
+      }
+  
+      this.playerShip.rotation = Phaser.Math.Angle.Between(this.playerShip.x, this.playerShip.y, 450, 300);
+  
+      this.circle.getPoint(this.a, this.point);
+      this.graphics.clear();
+      this.graphics.lineStyle(2, 0x00ff00);
+      this.graphics.strokeCircleShape(this.circle);
+  
+      this.graphics.fillStyle(0xFF0000);
+      this.graphics.fillRect(this.point.x - 8, this.point.y - 8, this.point.width, this.point.height);
+  
+      this.playerShip.x = this.point.x ;
+      this.playerShip.y = this.point.y ;
+  
+  
+      if (this.keySpace.isDown) {
+        this.input.stopPropagation();
+        this.music.stop();
+        this.scene.resume('Game');
+        this.scene.stop('MiniGame');
       }
     }
 
-    this.playerShip.rotation = Phaser.Math.Angle.Between(this.playerShip.x, this.playerShip.y, 450, 300);
-
-    this.circle.getPoint(this.a, this.point);
-    this.graphics.clear();
-    this.graphics.lineStyle(2, 0x00ff00);
-    this.graphics.strokeCircleShape(this.circle);
-
-    this.graphics.fillStyle(0xFF0000);
-    this.graphics.fillRect(this.point.x - 8, this.point.y - 8, this.point.width, this.point.height);
-
-    this.playerShip.x = this.point.x ;
-    this.playerShip.y = this.point.y ;
-
-
-    if (this.keySpace.isDown) {
-      this.input.stopPropagation();
-      this.scene.resume('Game');
-      this.scene.stop('MiniGame');
-    }
 
   }
 
   randomEnemyPositionTween(){
-    let randomnumb = Phaser.Math.Between(1, 100)
+    let randomnumb = Phaser.Math.Between(1, 100);
     randomnumb = randomnumb / 100 ;
     this.randomPoint = this.circle.getPoint(randomnumb, this.point);
   }

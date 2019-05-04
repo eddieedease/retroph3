@@ -6,11 +6,11 @@ export default class Texter extends Phaser.GameObjects.Sprite {
    *  @extends Phaser.GameObjects.Sprite
    */
   constructor(scene, x, y) {
-    super(scene, 0, 0, 'texter').setScale(0.45);
+    super(scene, 0, 0, 'texter').setScale(0.55);
     this.scene = scene;
     this.setPosition(x, y);
     this.setOrigin(0.5);
-    this.missiontext = this.scene.add.bitmapText(this.x - 33, this.y - 25, 'pixelfont', 's\nOks ', 6);
+    this.missiontext = this.scene.add.bitmapText(this.x - 33, this.y - 25, 'pixelfont', 's\nOks ', 10);
     this.missiontext.setDepth(1);
   }
 
